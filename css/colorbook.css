@@ -1,0 +1,21 @@
+:root {
+  --dark: #202225;
+  --default: #36393f;
+  --hot: #2f3136;
+}
+
+.sidehub {
+  background: var(--hot);
+}
+.sidebar, .v-color-picker__controls {
+  background: var(--dark);
+}
+
+.home {
+  background-color: var(--default);
+}
+
+.content {
+  background: var(--default) !important;
+}
+
