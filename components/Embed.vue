@@ -29,9 +29,9 @@
                 <!-- <button v-on:click="Swtich('fields')" class="Button font-bold py-2 px-4 rounded inline-flex items-center">
                     <outline-menu-icon class="w-5 h-5" />
                     <span>Fields</span>
-                </button>
+                </button> -->
 
-                 <button v-on:click="Swtich('thumbnail')" class="Button font-bold py-2 px-4 rounded inline-flex items-center">
+                <button v-on:click="Swtich('thumbnail')" class="Button font-bold py-2 px-4 rounded inline-flex items-center">
                     <outline-photograph-icon class="w-5 h-5" />
                     <span>Images</span>
                 </button>
@@ -39,7 +39,7 @@
                 <button v-on:click="Swtich('footer')" class="Button font-bold py-2 px-4 rounded inline-flex items-center">
                     <outline-arrow-circle-down-icon class="w-5 h-5" />
                     <span>Footer</span>
-                </button> -->
+                </button>
 
             </div>
         </div>
@@ -93,6 +93,40 @@
                     <br><br><br>
                     {{fields}}
                     <br><br><br>
+
+                </div>
+
+                <div v-if="section === 'footer'">
+
+                    <button v-on:click="footerimg = `https://`" v-if="footerimg === ``" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center">
+                        <outline-photograph-icon class="w-4 h-4" />
+                        <span style="padding-left: 10px;">add image endpoint</span>
+                    </button>
+
+                    <br v-if="footerimg === ``"><br v-if="footerimg === ``">
+
+                    <v-textarea rows="1" counter maxlength="2048" v-model="footer" label="Footer" placeholder="Footer of this embed" outlined full-width single-line></v-textarea>
+
+                    <v-text-field v-if="footerimg !== ``" v-model="footerimg" label="image url" placeholder="https://" outlined></v-text-field>
+
+                </div>
+
+                <div v-if="section === 'thumbnail'">
+
+                    <button v-on:click="thumb = `https://`" v-if="thumb === ``" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center">
+                        <outline-photograph-icon class="w-4 h-4" />
+                        <span style="padding-left: 10px;">add thumbnail endpoint</span>
+                    </button>
+
+                    <button v-on:click="img = `https://`" v-if="img === ``" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center">
+                        <outline-photograph-icon class="w-4 h-4" />
+                        <span style="padding-left: 10px;">add image endpoint</span>
+                    </button>
+
+                    <br v-if="thumb === `` || img === ``"><br v-if="thumb === `` || img === ``">
+
+                    <v-text-field v-if="thumb !== ``" v-model="thumb" label="thumbnail url" placeholder="https://" outlined></v-text-field>
+                    <v-text-field v-if="img !== ``" v-model="img" label="image url" placeholder="https://" outlined></v-text-field>
 
                 </div>
 
@@ -166,8 +200,13 @@
                             </div>
 
                         </div>
-                 
+                        <img v-bind:src="thumb" role="presentation" class="edge-thumb" style="max-width: 80px; max-height: 80px;">
                     </div>
+
+                    <a class="embed-thumbnail embed-thumbnail-rich"><img class="image" role="presentation" v-bind:src="img"></a>
+                    <div><img v-if="footerimg.length > 0" v-bind:src="footerimg" class="settle" role="presentation" width="20" height="20"><span style="color: white;" v-if="footer.length > 0" class="embed-footer">
+                            <vue-markdown-lite>{{footer}}</vue-markdown-lite>
+                        </span></div>
                 </div>
             </div>
 
@@ -255,27 +294,27 @@ export default {
 
             description: "",
             hex: '#4f545c',
-            // fields: [
+            fields: [
 
-            //     {
-            //         name: 'Inline field x',
-            //         value: 'Some value xa',
-            //         inline: true,
+                {
+                    name: '',
+                    value: '',
+                    inline: true,
                     
-            //     },
+                },
 
-            //     {
-            //         name: 'Inline field xaa',
-            //         value: 'Some value xaaa',
-            //         inline: true,
-            //     },
-            //     {
-            //         name: 'Inline field xaaaa',
-            //         value: 'Some value xxaaaaa',
-            //         inline: true,
-            //     },
+                {
+                    name: '',
+                    value: '',
+                    inline: true,
+                },
+                {
+                    name: '',
+                    value: '',
+                    inline: true,
+                },
 
-            // ],
+            ],
 
             section: 'home',
             enabled: true,
@@ -645,6 +684,18 @@ export default {
     margin-bottom: 5px
 }
 
+[class~=embed] [class~=embed-title],
+[class~=image],
+[class~=embed] [class~=author-name],
+[class~=embed] [class~=embed-footer] {
+    display: inline-block
+}
+
+[class~=embed] [class~=embed-title],
+[class~=embed] [class~=embed-footer],
+[class~=embed] [class~=author-name] {
+    font-weight: 600
+}
 
 #welcome h1 {
     font-size: .520833333in
@@ -777,8 +828,17 @@ export default {
     display: -webkit-box
 }
 
+[class~=embed] [class~=embed-footer] {
+    color: rgba(79, 83, 91, .6)
+}
+
 [class~=embed] [class~=description][class~=markup] {
     line-height: 12pt !important
+}
+
+[class~=embed] [class~=embed-footer],
+[class~=embed] [class~=description] {
+    letter-spacing: 0
 }
 
 .embed .embedFields .embedField {
